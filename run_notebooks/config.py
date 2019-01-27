@@ -5,7 +5,7 @@ import yaml
 DEFAULT_CONFIG_PATH = Path('~/.run_python/config.yaml').expanduser()
 
 
-def __load_yaml(filename):
+def _load_yaml(filename):
     with open(filename) as yaml_handle:
         yaml_contents = yaml.load(yaml_handle)
     return yaml_contents
@@ -20,10 +20,10 @@ class Config():
         """
         self.__dict__ = {
             'timeout': 600,
-            'log_summary':  True,
-            'log_detail': True,
-            'log_summary_name': '.error_log_summary',
-            'log_detail_name': '.error_log_detail',
+            'summary':  True,
+            'detail': True,
+            'summary_file': '.error_log_summary',
+            'detail_file': '.error_log_detail',
             'kernel_name': None,
         }
 
@@ -56,11 +56,11 @@ class Config():
         filename = Path(filename).expanduser()
         if not filename.exists():
             return False
-        yaml_settings = __load_yaml(DEFAULT_CONFIG_PATH)
+        yaml_settings = _load_yaml(filename)
         for setting in yaml_settings:
             if error_on_new_attributes and (setting not in self.__dict__):
                 raise ValueError(f'Trying to set unknown attribute {setting}')
-            self.__dict__['setting'] = yaml_settings['setting']
+            self.__dict__[setting] = yaml_settings[setting]
         return True
 
     def load_default_config(self):
