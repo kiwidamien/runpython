@@ -6,8 +6,8 @@ from setup_log import logger
 
 # use 'jupyter kernelspec list' to get names of all kernels
 
-def does_nb_run_without_errors(notebook_contents, path, kernel=None,
-                               timeout=600):
+def run_and_record_errors(notebook_contents, path, kernel=None,
+                          timeout=600):
     kwargs = {'timeout': timeout}
     if kernel:
         kwargs['kernel_name'] = kernel
@@ -25,7 +25,7 @@ def load_and_run_notebook(file_path, kernel=None, timeout=600):
         nb_contents = nbformat.read(nb_handle, as_version=4)
 
     path = Path(file_path).parent
-    return does_nb_run_without_errors(nb_contents, path, kernel)
+    return run_and_record_errors(nb_contents, path, kernel)
 
 
 def process_file(filename, kernel=None, timeout=600):
