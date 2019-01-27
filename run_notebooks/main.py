@@ -57,7 +57,10 @@ def pythonrunner(context, config_file, *args, **kwargs):
     when searching directories.
 
     By default, output is logged in the hidden files
-    .error_log_summary and .error_log_detail
+    .error_log_summary and .error_log_detail.
+
+    More detail and usage patterns can be found on the
+    project page https://github.com/kiwidamien/runpython/
     """
     params = Parameters(context, config_file)
     if params.summary and params.summary_file:
