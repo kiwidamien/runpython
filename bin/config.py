@@ -4,6 +4,7 @@ import yaml
 
 DEFAULT_CONFIG_PATH = Path('~/.run_python/config.yaml').expanduser()
 
+
 def __load_yaml(filename):
     with open(filename) as yaml_handle:
         yaml_contents = yaml.load(yaml_handle)
@@ -20,10 +21,10 @@ class Config():
         self.__dict__ = {
             'timeout': 600,
             'log_summary':  True,
-            'log_detail' : True,
-            'log_summary_name' : '.error_log_summary',
-            'log_detail_name' : '.error_log_detail',
-            'kernel_name' : None,
+            'log_detail': True,
+            'log_summary_name': '.error_log_summary',
+            'log_detail_name': '.error_log_detail',
+            'kernel_name': None,
         }
 
     def load_config_from_file(self, filename,
@@ -44,13 +45,13 @@ class Config():
         -------
         bool
             Indicates whether the file was successfully found and loaded.
-            If the file cannot be found, returns False (does not raise an error)
+            If the file cannot be found, returns False (doesn't raise an error)
 
         Raises
         ------
         ValueError
-            If error_on_new_attribute is True and the config file contains a new
-            attribute, a ValueError is raised.
+            If error_on_new_attribute is True and the config file contains a
+            new attribute, a ValueError is raised.
         """
         filename = Path(filename).expanduser()
         if not filename.exists():

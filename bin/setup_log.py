@@ -15,6 +15,7 @@ def setup_logger(filename, level=logging.DEBUG):
 
     logger.addHandler(handler)
 
+
 stream_handler = logging.StreamHandler()
 stream_handler.setLevel(logging.INFO)
 logger.addHandler(stream_handler)

@@ -9,6 +9,7 @@ from setup_log import setup_logger
 # click.Command to allow for loading from a yaml file
 # https://stackoverflow.com/questions/46358797/python-click-supply-arguments-and-options-from-a-configuration-file
 
+
 def CommandWithConfigFile(config_file_param_name):
     class CustomCommandClass(click.Command):
         def invoke(self, context):
@@ -62,7 +63,7 @@ def pythonrunner(context, *args, **kwargs):
     directories. Files in .ipynb_checkpoints are excluded
     when searching directories.
     """
-    params = type('', (object,), context.params)() 
+    params = type('', (object,), context.params)()
 
     if params.summary and params.summary_file:
         setup_logger(params.summary_file, level=logging.INFO)
@@ -72,6 +73,7 @@ def pythonrunner(context, *args, **kwargs):
     for notebook_name in params.notebooks:
         process_file_or_directory(notebook_name, kernel=params.kernel_name,
                                   timeout=params.timeout)
+
 
 if __name__ == '__main__':
     pythonrunner()

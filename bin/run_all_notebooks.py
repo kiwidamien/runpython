@@ -3,8 +3,8 @@ import nbformat
 from nbconvert.preprocessors import ExecutePreprocessor
 from notebook import Notebook
 from setup_log import logger
-
 # use 'jupyter kernelspec list' to get names of all kernels
+
 
 def run_and_record_errors(notebook_contents, path, kernel=None,
                           timeout=600):
@@ -30,7 +30,7 @@ def load_and_run_notebook(file_path, kernel=None, timeout=600):
 
 def process_file(filename, kernel=None, timeout=600):
     notebook_okay, kernel_name, error_message = load_and_run_notebook(filename,
-                                                         kernel, timeout)
+                                                         kernel, timeout)  # noqa E128
     status = "Success" if notebook_okay else "Failure"
     summary = f'{filename}:\t{status}\t(kernel: {kernel_name})'
     logger.info(summary)

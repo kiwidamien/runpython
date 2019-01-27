@@ -1,5 +1,6 @@
 import json
 
+
 class Cell(object):
     def __init__(self, cell_dict):
         self.raw = cell_dict
@@ -12,7 +13,7 @@ class Cell(object):
         self.errors = []
         for output in cell_dict.get('outputs', []):
             if output['output_type'] == 'error':
-                error_obj = {key:output[key]
+                error_obj = {key: output[key]
                              for key in ['ename', 'evalue', 'traceback']}
                 self.errors.append(error_obj)
 
@@ -32,7 +33,7 @@ class Cell(object):
         return ""
 
     def __str__(self):
-        msg = f"""(self.cell_type) [{self.execution_count}]: {self.source[:20]}"""
+        msg = f"(self.cell_type) [{self.execution_count}]: {self.source[:20]}"
         return msg
 
     def __repr__(self):
@@ -46,8 +47,9 @@ class Notebook(object):
             contents = json.loads(contents)
         self.nb_raw = contents
         self.cells = [Cell(cell) for cell in contents.get('cells', [])]
-        self.error_summary = [(index, cell.execution_count, 
-                               cell.first_error_message(), cell.number_of_errors())
+        self.error_summary = [(index, cell.execution_count,
+                               cell.first_error_message(),
+                               cell.number_of_errors())
                               for index, cell in enumerate(self.cells)
                               if cell.number_of_errors()]
 
@@ -61,4 +63,5 @@ class Notebook(object):
         return (self.number_of_errors() > 0)
 
     def summarize_errors(self):
-        return '\n'.join([f'[{obj[1]}] {obj[2]}' for obj in self.error_summary])
+        error_strings = [f'[{o[1]}] {o[2]}' for o in self.error_summary]
+        return '\n'.join(error_strings)
