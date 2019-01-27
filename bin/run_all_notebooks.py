@@ -1,9 +1,8 @@
 from pathlib import Path
 import nbformat
 from nbconvert.preprocessors import ExecutePreprocessor
-from notebook import Notebook
-from setup_log import logger
-# use 'jupyter kernelspec list' to get names of all kernels
+from .notebook import Notebook
+from .setup_log import logger
 
 
 def run_and_record_errors(notebook_contents, path, kernel=None,

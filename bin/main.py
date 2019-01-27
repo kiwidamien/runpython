@@ -1,9 +1,9 @@
 import click
 import logging
 
-from config import Config
-from run_all_notebooks import process_file_or_directory
-from setup_log import setup_logger
+from .config import Config
+from .run_all_notebooks import process_file_or_directory
+from .setup_log import setup_logger
 
 # This SO answer gives a nice demonstration of how to subclass
 # click.Command to allow for loading from a yaml file
