@@ -16,7 +16,7 @@ setup(
     ],
     entry_points="""
         [console_scripts]
-        run_notebooks=bin.main:pythonrunner
+        run_notebooks = run_notebooks.main:pythonrunner
     """,
     include_package_data=True
 )
