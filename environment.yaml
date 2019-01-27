@@ -1,0 +1,14 @@
+name: sample_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - jupyter_client=5.2.4=py_0
+  - python=3.6.6=h4a56312_1003
+  - pyyaml=3.13=py36h1de35cc_1001
+  - click=7.0=py36_0
+  - jupyter_core=4.4.0=py36_0
+  - nbconvert=5.4.0=py36_1
+  - nbformat=4.4.0=py36h827af21_0
+  - setuptools=40.6.3=py36_0
+prefix: /anaconda3/envs/sample_env
