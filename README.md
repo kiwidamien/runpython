@@ -11,6 +11,7 @@ has to be "registered" to be a kernel accessible to Jupyter. You can find a list
 ```bash
 $ jupyter kernelspec list
 ```
+If the kernel is not specified, then `run_notebooks` uses the kernel specified in the notebook.
 
 ## Installation 
 
@@ -55,7 +56,7 @@ $ run_notebooks -k python2 test_notebooks/
 
 # runs ALL notebooks in test_notebooks/ (including those in checkpoint directories)
 # The is more to emphasize it works with redirects
-$ find . -iname "*.ipynb" | xargs run_notebooks
+$ find test_notebooks/ -iname "*.ipynb" | xargs run_notebooks
 ```
 
 By default, the output gets written to the (hidden) files `.error_log_summary` and `.error_log_detail`.
