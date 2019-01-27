@@ -3,6 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - jupyter=1.0.0=py36_7
   - jupyter_client=5.2.4=py_0
   - python=3.6.6=h4a56312_1003
   - pyyaml=3.13=py36h1de35cc_1001
