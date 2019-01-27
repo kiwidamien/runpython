@@ -1,6 +1,9 @@
 import click
+import logging
+
 from config import Config
-from run_all_notebooks import process_file
+from run_all_notebooks import process_file_or_directory
+from setup_log import setup_logger
 
 # This SO answer gives a nice demonstration of how to subclass
 # click.Command to allow for loading from a yaml file
@@ -39,7 +42,8 @@ def CommandWithConfigFile(config_file_param_name):
 @click.option('-c', '--config-file', type=click.Path(),
               help="Config file to load settings from")
 @click.option('-k', '--kernel_name',
-              help="Name of the kernel to use (see 'jupyter kernelspec list' to get a list)")
+              help="Name of the kernel to use "
+                   "'jupyter kernelspec list' gets a list")
 @click.option('--summary/--no-summary', default=True)
 @click.option('--detail/--no-detail', default=True)
 @click.option('--summary-file', type=click.Path(),
@@ -48,9 +52,26 @@ def CommandWithConfigFile(config_file_param_name):
               help="Location of the file for detailed list of errors")
 @click.pass_context
 def pythonrunner(context, *args, **kwargs):
-    """Entry point for our application."""
-    print(context.params)
+    """Processes NOTEBOOKS and logs errors.
 
+    Running these notebooks does not save the notebook,
+    but if the notebook writes files or alters records
+    running this command will execute those commands.
+
+    NOTEBOOKS can be individual notebook files, or
+    directories. Files in .ipynb_checkpoints are excluded
+    when searching directories.
+    """
+    params = type('', (object,), context.params)() 
+
+    if params.summary and params.summary_file:
+        setup_logger(params.summary_file, level=logging.INFO)
+    if params.detail and params.detail_file:
+        setup_logger(params.detail_file)
+
+    for notebook_name in params.notebooks:
+        process_file_or_directory(notebook_name, kernel=params.kernel_name,
+                                  timeout=params.timeout)
 
 if __name__ == '__main__':
-    pythonrunner(['--timeout', 600, 'file1', 'file2'])
+    pythonrunner()

@@ -24,14 +24,8 @@ def load_and_run_notebook(file_path, kernel=None, timeout=600):
     with open(file_path) as nb_handle:
         nb_contents = nbformat.read(nb_handle, as_version=4)
 
-    path = file_path.parent
+    path = Path(file_path).parent
     return does_nb_run_without_errors(nb_contents, path, kernel)
-
-
-def get_start_processing_message(filename):
-    str_filename = str(filename)
-    line2 = '-'*len(str_filename)
-    return f'{str_filename}\n{line2}'
 
 
 def process_file(filename, kernel=None, timeout=600):
@@ -44,9 +38,19 @@ def process_file(filename, kernel=None, timeout=600):
         logger.debug(error_message)
 
 
-if __name__ == '__main__':
-    filenames = [f for f in Path('..').glob('**/*.ipynb')
-                 if r'.ipynb_checkpoints' not in str(f)]
-
+def process_directory(dirname, kernel=None, timeout=600):
+    filenames = [f for f in Path(dirname).glob('**/*.ipynb')
+                 if '.ipynb_checkpoints' not in str(f)]
     for filename in filenames:
         process_file(filename)
+
+
+def process_file_or_directory(path, kernel=None, timeout=600):
+    if Path(path).is_dir():
+        process_directory(path, kernel, timeout)
+    else:
+        process_file(path, kernel, timeout)
+
+
+if __name__ == '__main__':
+    process_directory('..')
