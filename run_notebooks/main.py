@@ -45,8 +45,10 @@ def CommandWithConfigFile(config_file_param_name):
 @click.option('-k', '--kernel_name',
               help="Name of the kernel to use "
                    "'jupyter kernelspec list' gets a list")
-@click.option('--summary/--no-summary', default=True)
-@click.option('--detail/--no-detail', default=True)
+@click.option('--summary/--no-summary', default=True,
+              help="Determines if summary log is written")
+@click.option('--detail/--no-detail', default=True,
+              help="Determines if detailed log is written")
 @click.option('--summary-file', type=click.Path(),
               help="Location of the file for summary of results")
 @click.option('--detail-file', type=click.Path(),
@@ -62,6 +64,9 @@ def pythonrunner(context, *args, **kwargs):
     NOTEBOOKS can be individual notebook files, or
     directories. Files in .ipynb_checkpoints are excluded
     when searching directories.
+
+    By default, output is logged in the hidden files
+    .error_log_summary and .error_log_detail
     """
     params = type('', (object,), context.params)()
 

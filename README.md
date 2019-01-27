@@ -38,16 +38,26 @@ Eventually I want to have this package hosted on PyPI.
 $ pip uninstall run_notebooks
 ```
 
-## Running
+## Usage 
 
 ```bash
 # displays help message
 $ run_notebooks --help
 
-# runs notebook test.ipynb
-$ run_notebooks test.ipynb
+# runs individual notebooks
+$ run_notebooks test_notebooks/the_good.ipynb test_notebooks/nested_folder/the_ugly.ipynb
 
-# runs all notebooks in notebooks/
-$ run_notebooks notebooks/
+# runs all notebooks in test_notebooks/ (excluding files in checkpoint directories)
+$ run_notebooks test_notebooks/
+
+# runs all notebooks using the Python2 kernel
+$ run_notebooks -k python2 test_notebooks/
+
+# runs ALL notebooks in test_notebooks/ (including those in checkpoint directories)
+# The is more to emphasize it works with redirects
+$ find . -iname "*.ipynb" | xargs run_notebooks
 ```
 
+By default, the output gets written to the (hidden) files `.error_log_summary` and `.error_log_detail`.
+
+You can change these defaults with the options `--summary-file` and `--detail-file` respectively.
