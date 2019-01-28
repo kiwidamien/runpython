@@ -18,4 +18,5 @@ def setup_logger(filename, level=logging.DEBUG):
 
 stream_handler = logging.StreamHandler()
 stream_handler.setLevel(logging.INFO)
+stream_handler.addFilter(logging.Filter('root'))
 logger.addHandler(stream_handler)

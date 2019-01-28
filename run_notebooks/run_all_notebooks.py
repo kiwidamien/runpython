@@ -24,10 +24,13 @@ def load_and_run_notebook(file_path, kernel=None, timeout=600):
         nb_contents = nbformat.read(nb_handle, as_version=4)
 
     path = Path(file_path).parent
-    return run_and_record_errors(nb_contents, path, kernel)
+    return run_and_record_errors(nb_contents, path, kernel, timeout)
 
 
 def process_file(filename, kernel=None, timeout=600):
+    """Execute single file.
+    See process_file_or_directory for parameter description.
+    """
     notebook_okay, kernel_name, error_message = load_and_run_notebook(filename,
                                                          kernel, timeout)  # noqa E128
     status = "Success" if notebook_okay else "Failure"
@@ -38,18 +41,41 @@ def process_file(filename, kernel=None, timeout=600):
 
 
 def process_directory(dirname, kernel=None, timeout=600):
+    """Recursively executes notebooks in dirname.
+
+    See process_file_or_directory for parameter description.
+    """
     filenames = [f for f in Path(dirname).glob('**/*.ipynb')
                  if '.ipynb_checkpoints' not in str(f)]
     for filename in filenames:
-        process_file(filename)
+        process_file(filename, kernel, timeout)
 
 
 def process_file_or_directory(path, kernel=None, timeout=600):
+    """Runs file at path, or all files in directory path.
+
+    If directory is passed, it is searched recursively, finding
+    all notebooks outside of .ipynb_checkpoint files.
+
+    Parameters
+    ----------
+    path : string or Path
+       Location of file to process (or directory to process)
+    kernel: string
+       Name of kernel (as listed as kernel display name in
+       Jupyter). List of names can be found from 
+       $ jupyter kernelspec list
+    timeout: integer
+       Number of seconds to run a notebook before it times
+       out.
+
+    Returns
+    -------
+    None
+
+    Instead, writes to stdout and registered loggers.
+    """
     if Path(path).is_dir():
         process_directory(path, kernel, timeout)
     else:
         process_file(path, kernel, timeout)
-
-
-if __name__ == '__main__':
-    process_directory('..')

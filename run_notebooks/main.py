@@ -67,7 +67,6 @@ def pythonrunner(context, config_file, *args, **kwargs):
         setup_logger(params.summary_file, level=logging.INFO)
     if params.detail and params.detail_file:
         setup_logger(params.detail_file)
-
     for notebook_name in params.notebooks:
         process_file_or_directory(notebook_name, kernel=params.kernel_name,
                                   timeout=params.timeout)
